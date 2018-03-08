@@ -66,6 +66,17 @@ double evaluate(struct Tree *tree)
                 else
                     return left + right;
 
+            case NT_M:
+                left = evaluate(tree->children[0]);
+                right = evaluate(tree->children[2]);
+                if (tree->children[1]->symbol.value == DIV)
+                    return left / right;
+                else
+                    return left * right;
+
+            case NT_P:
+                return evaluate(tree->children[1]);
+
             default:
                 fprintf(stderr, "Unrecognized nonterminal.\n");
                 exit(1);
