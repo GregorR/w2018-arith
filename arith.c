@@ -45,6 +45,8 @@ void printTree(struct Tree *tree, int depth)
         printTree(tree->children[i], depth+2);
 }
 
+static double vars['z'-'a'+1];
+
 double evaluate(struct Tree *tree)
 {
     double left, right;
@@ -56,8 +58,16 @@ double evaluate(struct Tree *tree)
     if (tree->symbol.terminal && tree->symbol.value == NUM) {
         return atof(tree->tok->text);
 
+    } else if (tree->symbol.terminal && tree->symbol.value == ID) {
+        return vars[tree->tok->text[0]-'a'];
+
     } else if (!tree->symbol.terminal) {
         switch (tree->symbol.value) {
+            case NT_S:
+                right = evaluate(tree->children[2]);
+                vars[tree->children[0]->tok->text[0]-'a'] = right;
+                return right;
+
             case NT_A:
                 left = evaluate(tree->children[0]);
                 right = evaluate(tree->children[2]);
