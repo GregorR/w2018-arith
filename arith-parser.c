@@ -25,7 +25,7 @@ static int predictorInitialized = 0;
 /* Create a production of the given LHS and size */
 struct Production *newProduction(enum NonTerminal lhs, int len)
 {
-    struct Production *ret = calloc(1, sizeof(struct Production) + (len-1)*sizeof(struct TerminalOrNonterminal));
+    struct Production *ret = calloc(1, sizeof(struct Production) + len*sizeof(struct TerminalOrNonterminal));
     if (!ret) {
         perror("calloc");
         exit(1);
@@ -38,7 +38,7 @@ struct Production *newProduction(enum NonTerminal lhs, int len)
 /* Create a tree with the given symbol, token and number of children */
 struct Tree *newTree(struct TerminalOrNonterminal symbol, struct Token *tok, int childrenCt)
 {
-    struct Tree *ret = calloc(1, sizeof(struct Tree)+(childrenCt-1)*sizeof(struct Tree *));
+    struct Tree *ret = calloc(1, sizeof(struct Tree)+childrenCt*sizeof(struct Tree *));
     ret->symbol = symbol;
     ret->tok = tok;
     ret->childrenCt = childrenCt;
